@@ -13,6 +13,18 @@
 * Goto definitions (ctrl+click)
 * Info displayed on hover
 
+## Installation
+For VSCode, this extension can be installed directly from the marketplace.
+
+For VSCodium, a little bit of extra work is needed:
+```
+git clone https://github.com/LostCityRS/RuneScriptLanguage.git
+cd RuneScriptLanguage
+npm install -g @vscode/vsce
+vsce package
+codium --install-extension runescriptlanguage-0.1.2.vsix
+```
+
 #### Coming soon™
 
 * Find all references
