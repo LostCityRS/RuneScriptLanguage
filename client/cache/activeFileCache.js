@@ -1,4 +1,3 @@
-const fs = require('fs');
 const vscode = require('vscode');
 const { TRIGGER_LINE, TRIGGER_DEFINITION, LOCAL_VAR_WORD_PATTERN } = require('../enum/regex');
 const { getWords } = require('../utils/matchUtils');
@@ -30,13 +29,14 @@ function getScriptData(lineNum) {
   return data;
 }
 
-function rebuild(uri) {
+function rebuild() {
   scriptData = [];
   lineNumToScript = {};
   curData = null;
-  const fileText = fs.readFileSync(uri.fsPath, "utf8");
-  const lines = getLines(fileText);
-  parseFile(lines, uri);
+  const activeEditor = vscode.window.activeTextEditor;
+  if (activeEditor && activeEditor.document.uri.path.endsWith('.rs2')) {
+    parseFile(getLines(activeEditor.document.getText()), activeEditor.document.uri);
+  }
 }
 
 function parseFile(lines, uri) {
