@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const { RECOLOR } = require('../enum/regex');
 
 const recolProvider = {
   provideColorPresentations(color, context, token) {
@@ -15,13 +16,12 @@ const recolProvider = {
     ];
   },
 
-  provideDocumentColors(document, token) {
+  provideDocumentColors(document) {
     const text = document.getText();
-    const colorRegex = /(recol[1-6][sd])=(\d+)/g;
     let match;
 
     const matches = [];
-    while (match = colorRegex.exec(text)) {
+    while (match = RECOLOR.exec(text)) {
       const rgb = parseInt(match[2]);
 
       const r = (rgb >> 10) & 0x1f;

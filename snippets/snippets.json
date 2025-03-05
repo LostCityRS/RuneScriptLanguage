@@ -158,7 +158,7 @@
         "description": "A shortcut for creating a new proc."
     },
     "Label with Params": {
-        "prefix": "label (params)",
+        "prefix": "label - with params",
         "body": [
             "[label,${1:label_name}](${2:params})",
             "$3"            
@@ -167,7 +167,7 @@
         "description": "A shortcut creating a new label with params."
     },
     "Proc with params": {
-        "prefix": "proc (params)",
+        "prefix": "proc - with params",
         "body": [
             "[proc,${1:proc_name}](${2:params})(${3:return_value})",
             "$4"            
@@ -186,9 +186,9 @@
             "// Default drop from config.",
             "obj_add(npc_coord, npc_param(death_drop), 1, ^lootdrop_duration);",
             "",
-            "def_int $$random = random(${2:roll});",
+            "def_int \\$random = random(${2:roll});",
             "",
-            "if ($$random < ${3:chance}) {",
+            "if (\\$random < ${3:chance}) {",
             "\tobj_add(npc_coord, ${4:drop}, 1, ^lootdrop_duration);",
             "}"
         ],

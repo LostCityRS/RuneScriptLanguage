@@ -2,9 +2,9 @@
     "name": "runescriptlanguage",
     "displayName": "RuneScript Language Support",
     "publisher": "2004scape",
-    "repository": "https://github.com/2004scape/RuneScriptLanguage",
+    "repository": "https://github.com/LostCityRS/RuneScriptLanguage",
     "description": "Syntax highlighting for RuneScript.",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "engines": {
         "vscode": "^1.75.0"
     },
@@ -12,7 +12,7 @@
         "Programming Languages",
         "Snippets"
     ],
-    "main": "./client/extension.js",
+    "main": "./client/runescript-language.js",
     "activationEvents": [
     ],
     "contributes": {
@@ -27,7 +27,7 @@
                 "extensions": [
                     ".rs2"
                 ],
-                "configuration": "./runescript.language-configuration.json",
+                "configuration": "./language-configuration/runescript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/rs2.png",
                     "light": "./icons/rs2.png"
@@ -43,7 +43,7 @@
                 "extensions": [
                     ".cs2"
                 ],
-                "configuration": "./runescript.language-configuration.json",
+                "configuration": "./language-configuration/runescript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/cs2.png",
                     "light": "./icons/cs2.png"
@@ -57,7 +57,7 @@
                 "extensions": [
                     ".obj"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/obj.png",
                     "light": "./icons/obj.png"
@@ -71,7 +71,7 @@
                 "extensions": [
                     ".loc"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/loc.png",
                     "light": "./icons/loc.png"
@@ -85,7 +85,7 @@
                 "extensions": [
                     ".npc"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/npc.png",
                     "light": "./icons/npc.png"
@@ -99,7 +99,7 @@
                 "extensions": [
                     ".dbtable"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/dbtable.png",
                     "light": "./icons/dbtable.png"
@@ -113,7 +113,7 @@
                 "extensions": [
                     ".dbrow"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/dbrow.png",
                     "light": "./icons/dbrow.png"
@@ -127,7 +127,7 @@
                 "extensions": [
                     ".param"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/param.png",
                     "light": "./icons/param.png"
@@ -141,7 +141,7 @@
                 "extensions": [
                     ".struct"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/struct.png",
                     "light": "./icons/struct.png"
@@ -155,7 +155,7 @@
                 "extensions": [
                     ".enum"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/enum.png",
                     "light": "./icons/enum.png"
@@ -169,7 +169,7 @@
                 "extensions": [
                     ".varp"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/varp.png",
                     "light": "./icons/varp.png"
@@ -183,7 +183,7 @@
                 "extensions": [
                     ".varn"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/varn.png",
                     "light": "./icons/varn.png"
@@ -197,7 +197,7 @@
                 "extensions": [
                     ".vars"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/vars.png",
                     "light": "./icons/vars.png"
@@ -211,7 +211,7 @@
                 "extensions": [
                     ".inv"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/inv.png",
                     "light": "./icons/inv.png"
@@ -225,7 +225,7 @@
                 "extensions": [
                     ".seq"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/seq.png",
                     "light": "./icons/seq.png"
@@ -239,7 +239,7 @@
                 "extensions": [
                     ".spotanim"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/spotanim.png",
                     "light": "./icons/spotanim.png"
@@ -253,7 +253,7 @@
                 "extensions": [
                     ".mesanim"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/mesanim.png",
                     "light": "./icons/mesanim.png"
@@ -267,7 +267,7 @@
                 "extensions": [
                     ".idk"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/idk.png",
                     "light": "./icons/idk.png"
@@ -281,7 +281,7 @@
                 "extensions": [
                     ".hunt"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/hunt.png",
                     "light": "./icons/hunt.png"
@@ -295,7 +295,7 @@
                 "extensions": [
                     ".constant"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/constant.png",
                     "light": "./icons/constant.png"
@@ -309,7 +309,7 @@
                 "extensions": [
                     ".if"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/if.png",
                     "light": "./icons/if.png"
@@ -323,7 +323,7 @@
                 "extensions": [
                     ".flo"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/flo.png",
                     "light": "./icons/flo.png"
@@ -337,7 +337,7 @@
                 "extensions": [
                     ".pack"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/pack.png",
                     "light": "./icons/pack.png"
@@ -351,7 +351,7 @@
                 "extensions": [
                     ".order"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/order.png",
                     "light": "./icons/order.png"
@@ -365,7 +365,7 @@
                 "extensions": [
                     ".opt"
                 ],
-                "configuration": "./confscript.language-configuration.json",
+                "configuration": "./language-configuration/confscript.language-configuration.json",
                 "icon": {
                     "dark": "./icons/opt.png",
                     "light": "./icons/opt.png"
@@ -379,7 +379,7 @@
                 "extensions": [
                     ".jm2"
                 ],
-                "configuration": "./jm2.language-configuration.json",
+                "configuration": "./language-configuration/jm2.language-configuration.json",
                 "icon": {
                     "dark": "./icons/jm2.png",
                     "light": "./icons/jm2.png"
@@ -517,6 +517,12 @@
             {
                 "language": "runescript",
                 "path": "./snippets/snippets.json"
+            }
+        ],
+        "commands": [
+            {
+                "command": "RuneScriptLanguage.rebuildCache",
+                "title": "Runescript: Rebuild Workspace Cache"
             }
         ]
     }

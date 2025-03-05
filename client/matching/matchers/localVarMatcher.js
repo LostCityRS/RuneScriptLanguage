@@ -1,13 +1,16 @@
 const matchType = require("../matchType");
 const { reference, declaration } = require("../../utils/matchUtils");
 
-// Looks for matches of local variables
-async function matchLocalVar(context) {
+/**
+ * Looks for matches of local variables
+ */ 
+function matchLocalVar(context) {
   if (context.prevChar === '$') {
     let prevWord = context.prevWord;
     if (!prevWord) {
       return reference(matchType.LOCAL_VAR);
     }
+    prevWord = prevWord.value;
     if (prevWord.startsWith("def_")) {
       prevWord = prevWord.substr(4);
     }

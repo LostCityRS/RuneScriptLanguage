@@ -1,7 +1,7 @@
 const { WORD_PATTERN } = require("../enum/regex");
 
-function getWords(lineText) {
-  return [ ...lineText.matchAll(WORD_PATTERN) ].map((wordMatch, index) => { 
+function getWords(lineText, wordPattern=WORD_PATTERN) {
+  return [ ...lineText.matchAll(wordPattern) ].map((wordMatch, index) => { 
     return { value: wordMatch[0], start: wordMatch.index, end: wordMatch.index + wordMatch[0].length - 1, index: index}
   });
 }
@@ -28,6 +28,21 @@ function expandCsvKeyObject(obj) {
   return obj;
 }
 
+/**
+ * Context items shared by both matchWord and matchWords
+ */ 
+function getBaseContext(lineText, lineNum, uri) {
+  lineText = lineText.split('//')[0]; // Ignore anything after a comment
+  const words = getWords(lineText);
+  const fileSplit = uri.fsPath.split('\\').pop().split('/').pop().split('.');
+  return {
+    words: words,
+    uri: uri,
+    line: {text: lineText, number: lineNum},
+    file: {name: fileSplit[0], type: fileSplit[1]},
+  }
+}
+
 function reference(type, extraData) {
   return (extraData) ? { ...type, extraData: extraData, declaration: false } : { ...type, declaration: false };
 }
@@ -36,4 +51,4 @@ function declaration(type, extraData) {
   return (extraData) ? { ...type, extraData: extraData, declaration: true } : { ...type, declaration: true };
 }
 
-module.exports = { getWords, getWordAtIndex, expandCsvKeyObject, reference, declaration };
+module.exports = { getWords, getWordAtIndex, getBaseContext, expandCsvKeyObject, reference, declaration };
