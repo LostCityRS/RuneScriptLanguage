@@ -4,7 +4,17 @@
 
 [Website](https://2004.lostcity.rs) | [Discord](https://discord.lostcity.rs) | [Forums](https://lostcity.rs) | [Rune-Server](https://www.rune-server.ee/runescape-development/rs2-server/projects/701698-lost-city-225-emulation.html)
 
+<p>A vscode extension that adds RuneScript language support</p>
+
 </div>
+
+## Installation
+
+[Get it here](https://marketplace.visualstudio.com/items?itemName=2004scape.runescriptlanguage), or install it directly from the extensions marketplace within vscode  
+
+## Feedback and Feature Requests
+
+Give feedback or request features on this [forums post](https://lostcity.rs/t/vs-code-runescript-extension/2549)
 
 ## Features
 
@@ -19,15 +29,15 @@
   * Type backtick (`) to open a list of possible autofill categories to choose from
   * Type double backtick (``) to automatically determine autofill suggestion category, or falls back to command names if auto detection fails
 
-## Installation
+### VSCodium Installation
 
-For VSCode, this extension can be installed directly from the marketplace.
-
-For VSCodium, a little bit of extra work is needed:
+For VSCodium users, this is how to install:
 ```
 git clone https://github.com/LostCityRS/RuneScriptLanguage.git
 cd RuneScriptLanguage
 npm install -g @vscode/vsce
 vsce package
-codium --install-extension runescriptlanguage-0.1.2.vsix
+codium --install-extension runescriptlanguage-0.2.0.vsix
 ```
+
+* <i>Be sure to change the version number as needed</i>
