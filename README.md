@@ -12,6 +12,10 @@
 
 [Get it here](https://marketplace.visualstudio.com/items?itemName=2004scape.runescriptlanguage), or install it directly from the extensions marketplace within vscode  
 
+## Feedback and Feature Requests
+
+Give feedback or request features on this [forums post](https://lostcity.rs/t/vs-code-runescript-extension/2549)
+
 ## Features
 
 * Syntax highlighting for all file formats
