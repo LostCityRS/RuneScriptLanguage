@@ -125,11 +125,7 @@ async function parseFileAndCacheIdentifiers(uri) {
         if (match.match.declaration) {
           text.lines = (text.lines) ? text.lines : lines.slice(line);
           const location = new vscode.Location(uri, new vscode.Position(line, match.context.word.start));
-          let info = (line > 0) ? getInfo(lines[line - 1]) : null;
-          if (!info && uri.fsPath.endsWith('engine.rs2')) {
-            info = engineSpecificInfo(lines[line - 1], match.word)
-          } 
-          const identifier = identifierFactory.build(match.word, match.match, location, info, text);
+          const identifier = identifierFactory.build(match.word, match.match, location, getInfo(lines, line), text);
           identifierCache.put(match.word, match.match, identifier);
           identifierCache.putReference(match.word, match.match, uri, line, match.context.word.start);
           cacheReturnBlock(identifier, line, match);
@@ -167,27 +163,10 @@ async function parseFileAndCacheIdentifiers(uri) {
 /**
  * Checks the previous line before an identifier for an "info" tag, if so it is added to the identifier
  */
-function getInfo(infoLine) {
-  if (!infoLine) return null;
-  const infoMatch = INFO_MATCHER.exec(infoLine);
+function getInfo(lines, line) {
+  if (line < 1) return null;
+  const infoMatch = INFO_MATCHER.exec(lines[line - 1]);
   return (infoMatch && infoMatch[2]) ? infoMatch[2].trim() : null;
-}
-
-/**
- * Gets info for engine commands specifically
- * @deprecated Will remove engine.rs2 specific code in future, and enforce usage of generic info tagging
- */
-function engineSpecificInfo(infoLine, commandName) {
-  if (commandName.charAt(0) === '.') {
-    const regCommand = identifierCache.get(commandName.substring(1), matchType.COMMAND);
-    if (regCommand.info) {
-      return regCommand.info;
-    }
-  }
-  if (infoLine && infoLine.startsWith('// ')) {
-    return infoLine.substring(3);
-  }
-  return null;
 }
 
 /**
