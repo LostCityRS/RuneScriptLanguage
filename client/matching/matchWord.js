@@ -6,6 +6,7 @@ const { getParentDeclaration } = require('../cache/identifierCache');
 // quicker potential matches are processed earlier in order to short circuit faster
 const matchers = [
   require('./matchers/packMatcher'),
+  require('./matchers/mapMatcher'),
   require('./matchers/regexWordMatcher'),
   require('./matchers/commandMatcher'),
   require('./matchers/localVarMatcher'),

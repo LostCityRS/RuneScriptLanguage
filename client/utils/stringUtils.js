@@ -44,6 +44,31 @@ function createSearchableString(linkableText, query, filesToInclude, isRegex=fal
   return `[${linkableText}](${vscode.Uri.parse(`command:workbench.action.findInFiles?${encodeURIComponent(searchOptions)}`)})`;
 }
 
+function countLines(string) {
+  let count = 1;
+  let chr;
+  let i = 0, end = string.length;
+  // determine line break type
+  for (; i < end; ++i) {
+    if (string[i] == '\n' || string[i] == '\r') {
+      count = 2;
+      chr = string[i];
+      break;
+    }
+  }
+  // count line breaks, return early if you encounter an '=' char
+  for (++i; i < end; ++i) {
+    if (string[i] == chr) {
+      ++count;
+    }
+    if (string[i] === '=') {
+      return {line: count, index: i};
+    }
+  }
+  return {line: count, index: i};
+}
+
 module.exports = { 
-  getLineText, getLines, skipFirstLine, getBlockText, nthIndexOf, truncateMatchingParenthesis, createSearchableString 
+  getLineText, getLines, skipFirstLine, getBlockText, nthIndexOf, truncateMatchingParenthesis, createSearchableString,
+  countLines
 };

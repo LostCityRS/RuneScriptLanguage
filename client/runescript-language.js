@@ -10,7 +10,7 @@ const signatureHelp = require('./provider/signatureHelpProvider');
 const configHelp = require('./provider/configHelpProvider');
 const completionProvider = require('./provider/completionProvider');
 
-const languages = ['runescript','locconfig','objconfig','npcconfig','dbtableconfig','dbrowconfig','paramconfig','structconfig','enumconfig','varpconfig','varnconfig','varsconfig','invconfig','seqconfig','spotanimconfig','mesanimconfig','idkconfig','huntconfig','constants','interface','pack'];
+const languages = ['runescript','locconfig','objconfig','npcconfig','dbtableconfig','dbrowconfig','paramconfig','structconfig','enumconfig','varpconfig','varnconfig','varsconfig','invconfig','seqconfig','spotanimconfig','mesanimconfig','idkconfig','huntconfig','constants','interface','pack','jm2'];
 
 function activate(context) {
     // Register commands created by this extension

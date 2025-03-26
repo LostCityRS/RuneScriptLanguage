@@ -11,6 +11,7 @@ const cacheUtils = require('../utils/cacheUtils');
 const returnBlockLinesCache = require('./returnBlockLinesCache');
 const switchStmtLinesCache = require('./switchStmtLinesCache');
 const dataTypeToMatchId = require('../resource/dataTypeToMatchId');
+const mapLinesCache = require('./mapLinesCache');
 
 /**
  * Builds the set of monitored file types, any file events with other file types will be ignored
@@ -19,6 +20,7 @@ const dataTypeToMatchId = require('../resource/dataTypeToMatchId');
 const monitoredFileTypes = new Set();
 function determineFileTypes() {
   monitoredFileTypes.add('pack');
+  monitoredFileTypes.add('jm2');
   Object.keys(matchType).filter(mt => !mt.referenceOnly).forEach(matchTypeId => {
     const fileTypes = matchType[matchTypeId].fileTypes || [];
     for (const fileType of fileTypes) {
@@ -114,9 +116,12 @@ async function getFiles() {
  */
 async function parseFileAndCacheIdentifiers(uri) {
   const isRs2 = uri.fsPath.endsWith('.rs2');
+  const isJm2 = uri.fsPath.endsWith('.jm2');
   const fileText = await fs.readFile(uri.fsPath, "utf8");
-  const lines = stringUtils.getLines(fileText);
+  const fileStart = isJm2 ? stringUtils.countLines(fileText) : {line: 0, index: 0};
+  const lines = stringUtils.getLines(isJm2 ? fileText.substring(fileStart.index) : fileText);
   for (let line = 0; line < lines.length; line++) {
+    cacheMapLineType(line, uri);
     cacheSwitchStatementBlock(line, uri);
     const matches = (matchWords(lines[line], line, uri) || []).filter(match => match && match.match.cache); 
     if (matches.length > 0) {
@@ -156,6 +161,12 @@ async function parseFileAndCacheIdentifiers(uri) {
           switchStmtLinesCache.put(line + 1, switchMatchType, uri);
         }
       }
+    }
+  }
+
+  function cacheMapLineType(line, uri) {
+    if (isJm2 && lines[line].startsWith('====')) {
+      mapLinesCache.put(line + fileStart.line, lines[line].substring(5, 8), uri);
     }
   }
 }
