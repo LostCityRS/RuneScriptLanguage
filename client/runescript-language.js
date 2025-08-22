@@ -25,6 +25,7 @@ function activate(context) {
     vscode.workspace.createFileSystemWatcher('**/.git/HEAD').onDidCreate(() => vscode.commands.executeCommand(commands.rebuildCache.id));
     vscode.workspace.onDidSaveTextDocument(saveDocumentEvent => cacheManager.rebuildFile(saveDocumentEvent.uri));
     vscode.workspace.onDidChangeTextDocument(() => cacheManager.rebuildActiveFile());
+    vscode.window.onDidChangeActiveTextEditor(() => cacheManager.rebuildActiveFile());
     vscode.workspace.onDidDeleteFiles(filesDeletedEvent => cacheManager.clearFiles(filesDeletedEvent.files));
     vscode.workspace.onDidRenameFiles(filesRenamedEvent => cacheManager.renameFiles(filesRenamedEvent.files));
     vscode.workspace.onDidCreateFiles(filesCreatedEvent => cacheManager.createFiles(filesCreatedEvent.files));
