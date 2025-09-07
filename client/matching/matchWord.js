@@ -70,7 +70,7 @@ function matchWords(lineText, lineNum, uri) {
  * Iterates thru all matchers to try to find a match, short circuits early if a match is made  
  */
 function match(context) {
-  if (!context.word || context.word.value === 'null' || context.word.value.length <= 1) { // Also ignore null and single character words
+  if (!context.word || context.word.value === 'null') { // Also ignore null
     return response(); 
   }
 
