@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 const path = require('path');
 const { INFO, VALUE, SIGNATURE, CODEBLOCK } = require('../enum/hoverDisplayItems');
+const { GLOBAL_VAR } = require('../matching/matchType');
 
 function markdownBase(extensionContext) {
   const markdown = new vscode.MarkdownString();
@@ -22,7 +23,7 @@ function appendTitle(name, type, matchId, markdown, id, isCert) {
     name = `${name} [${id}]`;
   }
   // <img src="${type}.png">&ensp;
-  if (matchId === 'GLOBAL_VAR') {
+  if (matchId === GLOBAL_VAR.id) {
     markdown.appendMarkdown(`<b>${type.toUpperCase()}</b>&ensp;${name}`);
   } else {
     markdown.appendMarkdown(`<b>${matchId}</b>&ensp;${name}`);

@@ -43,7 +43,7 @@ function activate(context) {
             vscode.languages.registerColorProvider(language, recolorProvider);
         }
 
-        if (language.endsWith('config')) {
+        if (language.endsWith('config') || language === 'interface') {
             vscode.languages.registerSignatureHelpProvider(language, configHelp.provider, configHelp.metadata);
         }
     }

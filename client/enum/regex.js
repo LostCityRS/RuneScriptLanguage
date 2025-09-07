@@ -15,7 +15,8 @@ const regex = {
   TRIGGER_DEFINITION: /\[.+,.+\](\([\w, :\.$]*\))?(\([\w, :\.$]*\))?/, 
   INFO_MATCHER: /\/\/[ ]{0,1}(desc|info):(.+)/,
   SWITCH_CASE: /\s*case.+/,
-  COLOR24: /(colour|mapcolour|activecolour|overcolour|activeovercolour)=(\w+)/g
+  COLOR24: /(colour|mapcolour|activecolour|overcolour|activeovercolour)=(\w+)/g,
+  LOC_MODEL: /^(?!model_[a-z0-9]$)\w+_[a-z0-9]\b/
 }
 
 module.exports = regex;

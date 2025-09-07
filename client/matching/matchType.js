@@ -119,9 +119,13 @@ const matchType = {
     hoverConfig: {[DECLARATION_HOVER_ITEMS]: [TITLE, INFO, SIGNATURE], [REFERENCE_HOVER_ITEMS]: [TITLE, INFO, SIGNATURE]},
   },
   SYNTH: {
-    id: 'SYNTH', types: ['synth'], fileTypes: ['synth'], cache: true, allowRename: false, referenceOnly: true, 
+    id: 'SYNTH', types: ['synth'], fileTypes: ['synth'], cache: true, allowRename: true, referenceOnly: true, renameFile: true, 
     hoverConfig: {[REFERENCE_HOVER_ITEMS]: [TITLE, INFO]},
     postProcessor: fileNamePostProcessor
+  },
+  MODEL: {
+    id: 'MODEL', types: ['ob2', 'model'], fileTypes: ['ob2'], cache: true, allowRename: true, referenceOnly: true, renameFile: true, 
+    hoverConfig: {[REFERENCE_HOVER_ITEMS]: [TITLE, INFO]},
   },
   WALKTRIGGER: {
     id: 'WALKTRIGGER', types: ['walktrigger'], fileTypes: ['rs2'], cache: true, allowRename: true, 

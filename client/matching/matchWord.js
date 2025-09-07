@@ -1,6 +1,7 @@
 const matchType = require('./matchType');
 const { getWordAtIndex, getBaseContext } = require('../utils/matchUtils');
 const { getParentDeclaration } = require('../cache/identifierCache');
+const { LOC_MODEL } = require('../enum/regex');
 
 // Do not reorder the matchers unless there is a reason to 
 // quicker potential matches are processed earlier in order to short circuit faster
@@ -115,6 +116,13 @@ function response(match, context) {
     context.word.value = context.word.value.substring(1);
     context.word.start = context.word.start + 1;
     context.originalPrefix = '_';
+    context.modifiedWord = true;
+  }
+  // If model match type, determine if it is a loc model and if so remove the suffix part (_0 or _q, etc...)
+  if (match.id === matchType.MODEL.id && LOC_MODEL.test(context.word.value)) {
+    const lastUnderscore = context.word.value.lastIndexOf("_");
+    context.originalSuffix = context.word.value.slice(lastUnderscore);
+    context.word.value = context.word.value.slice(0, lastUnderscore);
     context.modifiedWord = true;
   }
   return { match: match, word: context.word.value, context: context };

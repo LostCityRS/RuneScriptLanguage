@@ -68,8 +68,9 @@ function getConfigLineMatch(context) {
 }
 
 function getRegexKey(configKey, context) {
-  for (let regexKey of regexConfigKeys) {
-    if (regexKey.fileTypes.includes(context.file.type) && regexKey.regex.test(configKey)) {
+  const fileTypeRegexMatchers = regexConfigKeys.get(context.file.type) || [];
+  for (let regexKey of fileTypeRegexMatchers) {
+    if (regexKey.regex.test(configKey)) {
       return regexKey;
     }
   }
