@@ -31,12 +31,6 @@ const renameProvider = {
       return renameLocalVariableReferences(position, word, newName);
     }
 
-    const validationError = validate(match, newName);
-    if (validationError) {
-      vscode.window.showErrorMessage('Rename failed: ' + validationError);
-      return new vscode.WorkspaceEdit();
-    }
-
     const adjustedNewName = adjustNewName(context, newName);
     const identifier = identifierCache.get(word, match);
     renameFiles(match, word, adjustedNewName);
@@ -54,12 +48,6 @@ function renameLocalVariableReferences(position, word, newName) {
     });
   }
   return renameWorkspaceEdits;
-}
-
-function validate(match, newName) {
-  if (match.id === matchType.MODEL.id && LOC_MODEL.test(newName)) {
-    return `Do not include final _X suffix in model renames`;
-  }
 }
 
 // Decode all the references for the identifier into an array of vscode ranges,
@@ -84,9 +72,9 @@ function adjustNewName(context, newName) {
   if (context.originalPrefix && newName.startsWith(context.originalPrefix)) {
     newName = newName.substring(context.originalPrefix.length);
   }
-  // Strip the _0 (or others) on loc models
+  // Strip the suffixes off
   if (context.originalSuffix && newName.endsWith(context.originalSuffix)) {
-    newName = newName.slice(0, -2);
+    newName = newName.slice(0, -context.originalSuffix.length);
   }
   // Strip the left side of identifier names with colons in them
   if (newName.indexOf(':') > -1) {
@@ -97,11 +85,22 @@ function adjustNewName(context, newName) {
 
 async function renameFiles(match, oldName, newName) {
   if (match.renameFile && Array.isArray(match.fileTypes) && match.fileTypes.length > 0) {
-    const fileSearch = match.id === matchType.MODEL.id ? `**/${oldName}_*.${match.fileTypes[0]}` : `**/${oldName}.${match.fileTypes[0]}`;
-    const files = await vscode.workspace.findFiles(fileSearch) || [];
+    // Find files to rename
+    let files;
+    const ext = match.fileTypes[0];
+    if (match.id === matchType.MODEL.id) {
+      files = await vscode.workspace.findFiles(`**/${oldName}*.${ext}`) || [];
+      const regex = new RegExp(`^(?:${oldName}\\.${ext}|${oldName}_[^/]\\.${ext})$`);
+      files = files.filter(uri => regex.test(uri.path.split('/').pop()));
+    } else {
+      files = await vscode.workspace.findFiles(`**/${oldName}.${ext}`) || [];
+    }
+
+    // Rename the files
     for (const oldUri of files) {
-      const suffix = match.id === matchType.MODEL.id ? oldUri.path.slice(-6, -4) : '';
-      const newFileName = suffix ? `${newName}${suffix}.${match.fileTypes[0]}` : `${newName}.${match.fileTypes[0]}`;
+      const oldFileName = oldUri.path.split('/').pop();
+      const suffix = oldFileName.startsWith(`${oldName}_`) ? oldFileName.slice(oldName.length + 1, oldFileName.lastIndexOf('.')) : '';
+      const newFileName = suffix ? `${newName}_${suffix}.${ext}` : `${newName}.${ext}`;
       const newUri = vscode.Uri.joinPath(oldUri.with({ path: oldUri.path.replace(/\/[^/]+$/, '') }), newFileName);
       vscode.workspace.fs.rename(oldUri, newUri);
     }

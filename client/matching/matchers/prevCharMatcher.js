@@ -10,7 +10,7 @@ function prevCharMatcher(context) {
     case '%': return reference(matchType.GLOBAL_VAR);
     case '@': return (context.nextChar === '@') ? null : reference(matchType.LABEL);
     case '~': return reference(matchType.PROC);
-    case ',': return (context.prevWord.value === "p") ? reference(matchType.MESANIM) : null;
+    case ',': return (context.prevWord && context.prevWord.value === "p") ? reference(matchType.MESANIM) : null;
   }
 }
 
