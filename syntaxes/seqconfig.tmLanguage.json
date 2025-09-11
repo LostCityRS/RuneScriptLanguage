@@ -92,6 +92,30 @@
                     }
                 },
                 {
+                    "comment": "Sequence replaceheld values",
+                    "match": "^(righthand|lefthand)=(hide|\\w+)\\b",
+                    "captures": {
+                        "1": {
+                            "name": "entity.name.type.seqconfig.key"
+                        },
+                        "2": {
+                            "name": "constant.numeric.seqconfig.value"
+                        }
+                    }
+                },
+                {
+                    "comment": "Sequence replay values",
+                    "match": "^(replayoff|replaycount)=(\\d+)\\b",
+                    "captures": {
+                        "1": {
+                            "name": "entity.name.type.seqconfig.key"
+                        },
+                        "2": {
+                            "name": "constant.numeric.seqconfig.value"
+                        }
+                    }
+                },
+                {
                     "comment": "Sequence preanim_move values",
                     "match": "^(preanim_move)=(\\w+)\\b",
                     "captures": {

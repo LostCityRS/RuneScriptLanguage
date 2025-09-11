@@ -141,7 +141,7 @@
                 },
                 {
                     "comment": "Hunt find_newmode values",
-                    "match": "^(find_newmode)=(opplayer[1-5]|applayer[1-5]|queue[1-20])?",
+                    "match": "^(find_newmode)=(opplayer[1-5]|applayer[1-5]|queue([1-9]|1[0-9]|20))?",
                     "captures": {
                         "1": {
                             "name": "entity.name.type.huntconfig.key"
