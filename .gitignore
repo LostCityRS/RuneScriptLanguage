@@ -1,2 +1,5 @@
 *.vsix
 *.DS_store
+node_modules/
+out/
+.claude/

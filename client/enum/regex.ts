@@ -1,0 +1,18 @@
+export const COORD_REGEX = /(\d+_){4}\d+/;
+export const COLOR_REGEX = /\d{6}/;
+export const RECOLOR_REGEX = /(recol[1-6][sd])=(\d+)/g;
+export const NUMBER_REGEX = /^\d+.?\d+$/;
+export const END_OF_BLOCK_REGEX = /(\r\n|\r|\n)(\[.+|val=.+|\^.+|\d+=.+)(?:$|(\r\n|\r|\n))/;
+export const END_OF_BLOCK_LINE_REGEX = /^(\[|\^|\d+=)/;
+export const START_OF_LINE_REGEX = /(?<=[\n])(?!.*[\n]).*/;
+export const END_OF_LINE_REGEX = /\r\n|\r|\n/;
+export const WORD_REGEX = /(\.\w+)|(\w+:\w+)|([^\`\~\!\@\#\%\^\&\*\(\)\-\$\=\+\[\{\]\}\\\|\;\:\'\\"\,\.\<\>\/\?\s]+)/g;
+export const LOCAL_VAR_WORD_REGEX = /(\$\w+)|(\.\w+)|(\w+:\w+)|([^\`\~\!\@\#\%\^\&\*\(\)\-\$\=\+\[\{\]\}\\\|\;\:\'\\"\,\.\<\>\/\?\s]+)/g;
+export const CONFIG_LINE_REGEX = /^\w+=.+$/;
+export const CONFIG_DECLARATION_REGEX = /\[\w+\]/;
+export const TRIGGER_LINE_REGEX = /\[\w+,(\.)?\w+(:\w+)?\]/;
+export const TRIGGER_DEFINITION_REGEX = /\[.+,.+\](\([\w, :\.$]*\))?(\([\w, :\.$]*\))?/;
+export const INFO_MATCHER_REGEX = /\/\/[ ]{0,1}(desc|info):(.+)/;
+export const SWITCH_CASE_REGEX = /\s*case.+/;
+export const COLOR24_REGEX = /(colour|mapcolour|activecolour|overcolour|activeovercolour)=(\w+)/g;
+export const LOC_MODEL_REGEX = /^(?!model_[a-z0-9]$)\w+_[a-z0-9]\b/;
