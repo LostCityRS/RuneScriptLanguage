@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run RuneScriptLanguage Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "outFiles": [],
+      "sourceMaps": false,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ]
+    },
+    {
+      "name": "Attach to RuneScript LSP",
+      "type": "node",
+      "request": "attach",
+      "port": 6009,
+      "restart": true,
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/node_modules/runescript-lsp/dist/**/*.js"
+      ],
+      "sourceMapPathOverrides": {
+        "../../src/*": "${workspaceFolder}/../runescript-lsp/src/*",
+        "../src/*": "${workspaceFolder}/../runescript-lsp/src/*"
+      },
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/node_modules/runescript-lsp/dist/**/*.js",
+        "${workspaceFolder}/node_modules/runescript-lsp/src/**/*.ts",
+        "!**/node_modules/**"
+      ]
+    }
+  ]
+}

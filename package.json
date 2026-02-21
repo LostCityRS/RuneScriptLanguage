@@ -4,8 +4,9 @@
     "publisher": "2004scape",
     "repository": "https://github.com/LostCityRS/RuneScriptLanguage",
     "description": "Syntax highlighting for RuneScript.",
-    "version": "0.2.4",
+    "version": "0.3.0",
     "icon": "icons/icon-min.png",
+    "type": "commonjs",
     "engines": {
         "vscode": "^1.75.0"
     },
@@ -13,10 +14,29 @@
         "Programming Languages",
         "Snippets"
     ],
-    "main": "./client/runescript-language.js",
-    "activationEvents": [
-    ],
+    "main": "./src/runescript-extension.js",
+    "activationEvents": [],
     "contributes": {
+        "configuration": {
+            "title": "RuneScript",
+            "properties": {
+                "runescript.enableHover": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable/disable RuneScript hover information."
+                },
+                "runescript.enableDiagnostics": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable/disable RuneScript diagnostics."
+                },
+                "runescript.enableDevMode": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Enable/disable RuneScript extension development mode."
+                }
+            }
+        },
         "languages": [
             {
                 "id": "runescript",
@@ -542,8 +562,12 @@
         "commands": [
             {
                 "command": "RuneScriptLanguage.rebuildCache",
-                "title": "Runescript: Rebuild Workspace Cache"
+                "title": "Runescript: Rescan Workspace"
             }
         ]
+    },
+    "dependencies": {
+        "runescript-lsp": "^0.0.1",
+        "vscode-languageclient": "^9.0.1"
     }
 }
