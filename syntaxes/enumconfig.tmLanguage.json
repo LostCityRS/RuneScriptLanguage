@@ -64,7 +64,7 @@
                 },
                 {
                     "comment": "Enum outputtype values",
-                    "match": "^(outputtype)=(int|string|enum|obj|loc|component|namedobj|struct|boolean|coord|category|spotanim|npc|inv|synth|seq|stat|varp|player_uid|npc_uid|interface)?",
+                    "match": "^(outputtype)=(int|string|enum|obj|loc|component|namedobj|struct|boolean|coord|category|spotanim|npc|inv|synth|seq|stat|varp|player_uid|npc_uid|interface|model|chatcat|midi|idkit|jingle)?",
                     "captures": {
                         "1": {
                             "name": "entity.name.type.enumconfig.key"
