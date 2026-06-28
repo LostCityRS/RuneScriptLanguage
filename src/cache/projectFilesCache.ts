@@ -10,15 +10,17 @@ const filesInDataSrc: Set<string> = new Set();
 
 export async function rebuild(): Promise<void> {
   filesInDataSrc.clear();
-  const uris = await workspace.findFiles("**/*", "**/{node_modules,out,dist,build}/**");
   const filesToCheckNames = getFileTypesToCheckNames();
+  const extensions = new Set(['pack', 'rs2', 'ob2', ...filesToCheckNames]);
+  const patterns = Array.from(extensions, ext => `**/*.${ext}`);
+  const uris = await workspace.findFiles(`{${patterns.join(',')}}`, "**/{node_modules,out,dist,build}/**");
   uris.forEach(uri => {
-    filesInDataSrc.add(basename(uri.fsPath))
+    filesInDataSrc.add(basename(uri.fsPath));
     const fileInfo = getFileInfo(uri);
     if (filesToCheckNames.has(fileInfo.type)) {
       addExceptionWord(fileInfo.name);
     }
-});
+  });
 }
 
 export function exists(name?: string, uri?: Uri): boolean {

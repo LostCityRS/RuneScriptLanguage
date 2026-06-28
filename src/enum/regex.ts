@@ -10,8 +10,8 @@ export const END_OF_BLOCK_REGEX = /(\r\n|\r|\n)(\[.+|val=.+|\^.+|\d+=.+)(?:$|(\r
 export const END_OF_BLOCK_LINE_REGEX = /^(\[|\^|\d+=)/;
 export const START_OF_LINE_REGEX = /(?<=[\n])(?!.*[\n]).*/;
 export const END_OF_LINE_REGEX = /\r\n|\r|\n/;
-export const WORD_REGEX = /(\.\w+)|(\w+:\w+)|([^\`\~\!\@\#\%\^\&\*\(\)\-\$\=\+\[\{\]\}\\\|\;\:\'\\"\,\.\<\>\/\?\s]+)/g;
-export const LOCAL_VAR_WORD_REGEX = /(\$\w+)|(\.\w+)|(\w+:\w+)|([^\`\~\!\@\#\%\^\&\*\(\)\-\$\=\+\[\{\]\}\\\|\;\:\'\\"\,\.\<\>\/\?\s]+)/g;
+export const WORD_REGEX = /(\.\w+)|(\w+:\w+)|([^\`\~\!\@\#\%\^\&\*\(\)\$\=\[\{\]\}\\\|\;\:\'\\"\,\.\<\>\/\?\s]+)/g;
+export const LOCAL_VAR_WORD_REGEX = /(\$\w+)|(\.\w+)|(\w+:\w+)|([^\`\~\!\@\#\%\^\&\*\(\)\$\=\[\{\]\}\\\|\;\:\'\\"\,\.\<\>\/\?\s]+)/g;
 export const CONFIG_LINE_REGEX = /^\w+=.+$/;
 export const CONFIG_DECLARATION_REGEX = /\[[^\]]+\]/;
 export const TRIGGER_LINE_REGEX = /\[\w+,(\.)?[\w*-]+(:[\w*-]+)?\]/;

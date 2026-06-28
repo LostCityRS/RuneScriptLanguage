@@ -16,7 +16,7 @@ import { handleObjFileClosed, handleObjFileEdited, handleObjFileOpened, isObjFil
 import { handleHuntFileClosed, handleHuntFileEdited, handleHuntFileOpened, isHuntFile } from "./huntManager";
 import { handleInvFileClosed, handleInvFileEdited, handleInvFileOpened, isInvFile } from "./invManager";
 import { handleEnumFileClosed, handleEnumFileEdited, handleEnumFileOpened, isEnumFile } from "./enumManager";
-import { consumePendingRename, drainPendingRenameEdits, drainPendingRenameOps, endRenameSuppression, registerRenameRebuildHandler } from "./renameTracking";
+import { consumePendingRename, consumePendingRenameFileEvent, drainPendingRenameEdits, drainPendingRenameOps, endRenameSuppression, registerRenameRebuildHandler } from "./renameTracking";
 import { getAllMatchTypes } from "../matching/matchType";
 
 
@@ -188,6 +188,9 @@ function onChangeFile(uri: Uri) {
 function onFilesRenamed(event: FileRenameEvent) {
   const supportedExtensions = new Set(['if', 'synth', 'mid', 'ob2']);
   for (const file of event.files) {
+    if (consumePendingRenameFileEvent(file.oldUri, file.newUri)) {
+      continue;
+    }
     if (dirname(file.oldUri.fsPath) !== dirname(file.newUri.fsPath)) {
       continue;
     }

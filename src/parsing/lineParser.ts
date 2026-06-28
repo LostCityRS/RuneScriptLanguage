@@ -381,7 +381,7 @@ function parseLineWithState(lineText: string, _lineNum: number, startState: Pars
     wordConfigKey = undefined;
   };
 
-  const isWordChar = (ch: string) => /[A-Za-z0-9_+\.]/.test(ch);
+  const isWordChar = (ch: string) => /[A-Za-z0-9_+\-\.]/.test(ch);
   const canStartWord = (ch: string, next: string) =>
     /[A-Za-z0-9_]/.test(ch) || ((ch === '.' || ch === '+') && /[A-Za-z0-9_]/.test(next));
   const addOperator = (op: string, index: number) => {

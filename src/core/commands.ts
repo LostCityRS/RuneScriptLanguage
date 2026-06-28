@@ -1,13 +1,13 @@
-import type { ExtensionContext, QuickPickItem } from 'vscode';
-import { commands, ExtensionMode, Position, Range, Selection, StatusBarAlignment, TextEditorRevealType, Uri, window, workspace } from 'vscode';
+import type { ExtensionContext, QuickPickItem, Uri } from 'vscode';
+import { commands, ExtensionMode, Position, Range, Selection, StatusBarAlignment, TextEditorRevealType, window, workspace } from 'vscode';
 import { writeFile } from 'fs/promises';
 import { join } from 'path';
 import { getCacheKeys, serializeCache } from '../cache/identifierCache';
 import { processAllFiles } from './manager';
 import { showIdentifierLookupView } from '../webview/identifierLookupView';
 import { renameInterfaceFromFileRename, renameModelReferencesByName, renameReferenceOnlyByName } from '../provider/renameProvider';
-import { MIDI, MODEL, SYNTH } from '../matching/matchType';
-import { LOC_MODEL_REGEX } from '../enum/regex';
+import { MIDI, SYNTH } from '../matching/matchType';
+import { normalizeModelName } from '../utils/modelUtils';
 
 /**
  * The interface for registering a new command. 
@@ -149,15 +149,6 @@ function getBaseName(uri: Uri): string {
   const parts = fileName.split('.');
   if (parts.length < 2) return fileName;
   return parts.slice(0, -1).join('.');
-}
-
-function normalizeModelName(name: string): string {
-  if (!name) return name;
-  if (LOC_MODEL_REGEX.test(name)) {
-    const lastUnderscore = name.lastIndexOf('_');
-    if (lastUnderscore > 0) return name.slice(0, lastUnderscore);
-  }
-  return name;
 }
 
 async function saveDirtyDocuments(): Promise<void> {

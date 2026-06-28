@@ -13,7 +13,7 @@ import { registerCommands } from "./commands";
 import { registerEventHandlers } from "./eventHandlers";
 import { registerProviders } from "./providers";
 import { parseFile } from "../parsing/fileParser";
-import { findFileExceptionWords } from "../parsing/wordExceptions";
+import { clearExceptionWords, findFileExceptionWords } from "../parsing/wordExceptions";
 import { isDevMode, logFileRebuild, rebuildMetrics, registerDevMode, reportRebuildMetrics } from "./devMode";
 import { clear as clearIdCache, clearAll as clearAllIds } from "../cache/idCache";
 import { clear as clearMap, handleMapFileOpened, isMapFile } from "./mapManager";
@@ -78,39 +78,36 @@ async function rebuildAllFiles(recordMetrics = isDevMode()): Promise<void> {
   if (recordMetrics) rebuildMetrics.fileCount = uris.length;
   if (recordMetrics) rebuildMetrics.wordCount = 0;
 
-  // Read and parse all of the relevant project files
+  // Scan exception words first; parsing needs the full set but we do not need to keep every file in memory.
   let startTime = performance.now();
-  type File = { uri: Uri; lines: string[]; parsedFile?: ParsedFile };
-  const files: File[] = await Promise.all(uris.map(async uri => ({ uri: uri, lines: await getFileText(uri) })));
+  for (const uri of uris) {
+    findFileExceptionWords(await getFileText(uri));
+  }
   if (recordMetrics) rebuildMetrics.fileReadDuration = performance.now() - startTime;
-
-  // Scan the files for exception words
-  startTime = performance.now();
-  files.forEach(file => findFileExceptionWords(file.lines));
-  if (recordMetrics) rebuildMetrics.exceptionWordScanDuration = performance.now() - startTime;
-
-  // Parse the files into words with deeper parsing context
-  startTime = performance.now();
-  files.forEach(file => file.parsedFile = parseFile(file.uri, file.lines, true));
-  if (recordMetrics) rebuildMetrics.fileParsingDuration = performance.now() - startTime;
+  if (recordMetrics) rebuildMetrics.exceptionWordScanDuration = rebuildMetrics.fileReadDuration;
   
-  // First pass => finds all the declarations & exception words so second pass will be complete
+  // First pass => finds all declarations so second pass has complete references.
   startTime = performance.now();
-  for (const file of files) {
-    initActiveFilecache(file.uri, file.parsedFile!);
-    matchFile(file.uri, file.parsedFile!, file.lines, true);
-    if (recordMetrics) rebuildMetrics.wordCount += [...file.parsedFile!.parsedWords!.values()].reduce((sum, words) => sum + words.length, 0);
+  for (const uri of uris) {
+    const lines = await getFileText(uri);
+    const parsedFile = parseFile(uri, lines, true);
+    initActiveFilecache(uri, parsedFile);
+    matchFile(uri, parsedFile, lines, true);
+    if (recordMetrics) rebuildMetrics.wordCount += [...parsedFile.parsedWords.values()].reduce((sum, words) => sum + words.length, 0);
   }
   if (recordMetrics) rebuildMetrics.firstPassDuration = performance.now() - startTime;
 
-  // Second pass => now that the declarations and exception words are known full matching can be done
+  // Second pass => now that declarations and exception words are known full matching can be done.
   startTime = performance.now();
-  for (const file of files) {
-    initActiveFilecache(file.uri, file.parsedFile!);
-    const matchResults = matchFile(file.uri, file.parsedFile!, file.lines, false);
-    await rebuildFileDiagnostics(file.uri, matchResults);
+  for (const uri of uris) {
+    const lines = await getFileText(uri);
+    const parsedFile = parseFile(uri, lines, true);
+    initActiveFilecache(uri, parsedFile);
+    const matchResults = matchFile(uri, parsedFile, lines, false);
+    await rebuildFileDiagnostics(uri, matchResults);
   }
   if (recordMetrics) rebuildMetrics.secondPassDuration = performance.now() - startTime;
+  if (recordMetrics) rebuildMetrics.fileParsingDuration = rebuildMetrics.firstPassDuration + rebuildMetrics.secondPassDuration;
 }
 
 /**
@@ -178,6 +175,7 @@ export function clearAll() {
   clearIdentifierCache();
   clearAllDiagnostics();
   clearActiveFileCache();
+  clearExceptionWords();
   clearAllIds();
   clearMap();
   clearNpc();

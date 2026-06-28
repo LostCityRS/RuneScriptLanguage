@@ -2,7 +2,7 @@ import type { Uri } from 'vscode';
 import type { MatchContext, MatchResult, ParsedFile, ParsedWord } from '../types';
 import { CATEGORY, COMPONENT, CONSTANT, DBCOLUMN, DBROW, DBTABLE, MODEL, NULL, OBJ, SKIP, UNKNOWN } from './matchType';
 import { buildMatchContext, reference } from '../utils/matchUtils';
-import { LOC_MODEL_REGEX, TRIGGER_DEFINITION_REGEX } from '../enum/regex';
+import { TRIGGER_DEFINITION_REGEX } from '../enum/regex';
 import { packMatcher } from './matchers/packMatcher';
 import { regexWordMatcher } from './matchers/regexWordMatcher';
 import { commandMatcher } from './matchers/commandMatcher';
@@ -24,6 +24,7 @@ import { get as getIdentifier } from '../cache/identifierCache';
 import { Type } from '../enum/type';
 import { matchFromOperators } from './operatorMatching';
 import { mapFileMatcher } from './matchers/mapFileMatcher';
+import { splitLocModelReference } from '../utils/modelUtils';
 
 export const enum Engine {
   Config = 'config',
@@ -197,12 +198,12 @@ function response(ctx?: MatchContext): MatchResult | undefined {
     context.word.start = context.word.start + 1;
     context.originalPrefix = '_';
   }
-  // If model match type, determine if it is a loc model and if so remove the suffix part (_0 or _q, etc...)
-  if (context.matchType.id === MODEL.id && LOC_MODEL_REGEX.test(context.word.value)) {
-    const lastUnderscore = context.word.value.lastIndexOf("_");
-    context.originalSuffix = context.word.value.slice(lastUnderscore);
+  // If model match type, normalize loc-shape references unless the full name maps to its own model file.
+  const locModel = context.matchType.id === MODEL.id ? splitLocModelReference(context.word.value) : undefined;
+  if (locModel) {
+    context.originalSuffix = locModel.suffix;
     context.originalWord = context.word.value;
-    context.word.value = context.word.value.slice(0, lastUnderscore);
+    context.word.value = locModel.base;
   }
   return { context: context, word: context.word.value };
 }

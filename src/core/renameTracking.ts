@@ -7,6 +7,7 @@ let pendingRenameTimer: NodeJS.Timeout | undefined;
 let renameRebuildHandler: ((uris: Uri[]) => void) | undefined;
 const pendingRenameEdits = new Map<string, TextEdit[]>();
 const pendingRenameOps: Array<{ matchTypeId: string; oldName: string; newName: string }> = [];
+const pendingRenameFileEvents = new Set<string>();
 const suppressedMatchTypeIds = new Set<string>();
 let suppressionTimer: NodeJS.Timeout | undefined;
 let renameSuppressionDepth = 0;
@@ -29,6 +30,16 @@ export function registerRenameUris(uris: Iterable<Uri>): void {
     pendingRenameFiles.add(uri.fsPath);
   }
   scheduleRenameRebuild();
+}
+
+export function registerRenameFileEvent(oldUri: Uri, newUri: Uri): void {
+  const key = getRenameFileEventKey(oldUri, newUri);
+  pendingRenameFileEvents.add(key);
+  setTimeout(() => pendingRenameFileEvents.delete(key), diagnosticsSuppressionMs);
+}
+
+export function consumePendingRenameFileEvent(oldUri: Uri, newUri: Uri): boolean {
+  return pendingRenameFileEvents.delete(getRenameFileEventKey(oldUri, newUri));
 }
 
 export function registerIdentifierRename(matchType: MatchType, oldName: string, newName: string): void {
@@ -94,6 +105,10 @@ export function endRenameSuppression(): void {
     suppressionTimer = undefined;
   }
   suppressedMatchTypeIds.clear();
+}
+
+function getRenameFileEventKey(oldUri: Uri, newUri: Uri): string {
+  return `${oldUri.fsPath}\n${newUri.fsPath}`;
 }
 
 function beginRenameSuppression(matchTypeId: string): void {
